@@ -65,8 +65,9 @@ class FilteredTodos with ChangeNotifier {
 
     if (todoSearch.state.searchTerm.isNotEmpty) {
       _filteredTodos = _filteredTodos
-          .where((Todo todo) =>
-              todo.desc.toLowerCase().contains(todoSearch.state.searchTerm))
+          .where((Todo todo) => todo.desc
+              .toLowerCase()
+              .contains(todoSearch.state.searchTerm.toLowerCase()))
           .toList();
     }
 
