@@ -25,31 +25,29 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TodoList>(
           create: (context) => TodoList(),
         ),
-        ChangeNotifierProxyProvider<TodoList, ActiveTodoCount>(
-          create: (context) => ActiveTodoCount(
-            initialActiveTodoCount: context.read<TodoList>().state.todos.length,
-          ),
-          update: (
-            BuildContext context,
-            TodoList todoList,
-            ActiveTodoCount? activeTodoCount,
-          ) =>
-              activeTodoCount!..update(todoList),
-        ),
-        ChangeNotifierProxyProvider3<TodoFilter, TodoSearch, TodoList,
-            FilteredTodos>(
-          create: (context) => FilteredTodos(
-            initialFilteredTodos: context.read<TodoList>().state.todos,
-          ),
-          update: (
-            BuildContext context,
-            TodoFilter todoFilter,
-            TodoSearch todoSearch,
-            TodoList todoList,
-            FilteredTodos? filteredTodos,
-          ) =>
-              filteredTodos!..update(todoFilter, todoSearch, todoList),
-        ),
+        ProxyProvider<TodoList, ActiveTodoCount>(
+            // create: 삭제
+            update: (
+          BuildContext context,
+          TodoList todoList,
+          ActiveTodoCount? _, //  activeTodoCount => _로 변경
+        ) =>
+                ActiveTodoCount(todoList: todoList)
+            // activeTodoCount!..update(todoList) => ActiveTodoCount(todoList: todoList)
+            ),
+        ProxyProvider3<TodoFilter, TodoSearch, TodoList, FilteredTodos>(
+            // create: 삭제
+            update: (
+          BuildContext context,
+          TodoFilter todoFilter,
+          TodoSearch todoSearch,
+          TodoList todoList,
+          FilteredTodos? _, // filteredTodos => _로 변경
+        ) => //filteredTodos..update(todoFilter, todoSearch, todoList) => FilteredTodos( todoFilter: todoFilter,todoSearch: todoSearch,todoList: todoList)), 로변경
+                FilteredTodos(
+                    todoFilter: todoFilter,
+                    todoSearch: todoSearch,
+                    todoList: todoList)),
       ],
       child: MaterialApp(
         title: 'TODOS',

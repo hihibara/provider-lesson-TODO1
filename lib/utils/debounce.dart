@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+//
 class Debounce {
   final int milliseconds;
   Debounce({

@@ -29,25 +29,19 @@ class FilteredTodosState extends Equatable {
   }
 }
 
-class FilteredTodos with ChangeNotifier {
-  // FilteredTodosState _state = FilteredTodosState.initial();
-  late FilteredTodosState _state;
-  final List<Todo> initialFilteredTodos;
+// ChangeNotifier제거하여 단순 class으로 변경
+class FilteredTodos {
+  final TodoFilter todoFilter;
+  final TodoSearch todoSearch;
+  final TodoList todoList;
   FilteredTodos({
-    required this.initialFilteredTodos,
-  }) {
-    print('initialFilteredTodos: $initialFilteredTodos');
-    _state = FilteredTodosState(filterdTodos: initialFilteredTodos);
-  }
-  FilteredTodosState get state => _state;
+    required this.todoFilter,
+    required this.todoSearch,
+    required this.todoList,
+  });
 
 // FilteredTodosState를 개선하기 위해서 무엇이 필요한지 잘 생각해보면 1. todoList, 2.todoFilter, 3.todoSearch 이렇게 3개가 필요하다
-  void update(
-    // 의존하는 값이 초기에 그리고 변할때 마다 실행되어야 한다
-    TodoFilter todoFilter,
-    TodoSearch todoSearch,
-    TodoList todoList,
-  ) {
+  FilteredTodosState get state {
     List<Todo> _filteredTodos;
 
     switch (todoFilter.state.filter) {
@@ -74,7 +68,6 @@ class FilteredTodos with ChangeNotifier {
           .toList();
     }
 
-    _state = _state.copyWith(filterdTodos: _filteredTodos);
-    notifyListeners();
+    return FilteredTodosState(filterdTodos: _filteredTodos);
   }
 }

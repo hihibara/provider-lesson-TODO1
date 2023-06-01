@@ -32,29 +32,16 @@ class ActiveTodoCountState extends Equatable {
   }
 }
 
-class ActiveTodoCount with ChangeNotifier {
-  // ActiveTodoCountState _state = ActiveTodoCountState.initial();
-  late ActiveTodoCountState _state;
-  final int initialActiveTodoCount;
+// with ChangeNotifier를 제거함으록 그냥 class으로 변경
+class ActiveTodoCount {
+  final TodoList todoList;
   ActiveTodoCount({
-    required this.initialActiveTodoCount,
-  }) {
-    print('initialActiveTodoCount: $initialActiveTodoCount');
-    _state = ActiveTodoCountState(activeTodoCount: initialActiveTodoCount);
-  }
-  ActiveTodoCountState get state => _state;
+    required this.todoList,
+  });
 
-// 이 함수는 여러번 동작한다. (의존하는 함수가 처음 얻을때, 그 의존하는 값이 변할때 마다)
-  void update(TodoList todoList) {
-    print(todoList.state);
-    // doto의 completed가 false인 것들의 갯수를 센다
-    final int newActiveTodoCount = todoList.state.todos
-        .where((Todo todo) => !todo.completed)
-        .toList()
-        .length;
-
-    _state = _state.copyWith(activeTodoCount: newActiveTodoCount);
-    print(state);
-    notifyListeners();
-  }
+  ActiveTodoCountState get state => ActiveTodoCountState(
+      activeTodoCount: todoList.state.todos
+          .where((Todo todo) => !todo.completed)
+          .toList()
+          .length);
 }
