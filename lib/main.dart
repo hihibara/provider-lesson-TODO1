@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      // 여러개의 provider를 사용할떄 쓴다.
       providers: [
         ChangeNotifierProvider<TodoFilter>(
           create: (context) => TodoFilter(),

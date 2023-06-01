@@ -41,7 +41,9 @@ class FilteredTodos with ChangeNotifier {
   }
   FilteredTodosState get state => _state;
 
+// FilteredTodosState를 개선하기 위해서 무엇이 필요한지 잘 생각해보면 1. todoList, 2.todoFilter, 3.todoSearch 이렇게 3개가 필요하다
   void update(
+    // 의존하는 값이 초기에 그리고 변할때 마다 실행되어야 한다
     TodoFilter todoFilter,
     TodoSearch todoSearch,
     TodoList todoList,
@@ -63,6 +65,7 @@ class FilteredTodos with ChangeNotifier {
         break;
     }
 
+// 사용자가 검색을 입력한 것일때 동작
     if (todoSearch.state.searchTerm.isNotEmpty) {
       _filteredTodos = _filteredTodos
           .where((Todo todo) => todo.desc

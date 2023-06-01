@@ -30,11 +30,16 @@ class TodoFilterState extends Equatable {
   String toString() => 'TodoFilterState(filter: $filter)';
 }
 
+// state가 바뀔때마다 listen하는 widget에게 값이 변경되었다라는 것을 알려줄 것이다
+// extend를 사용해도 가능 하지만 이번에는 with으로 mixing
 class TodoFilter with ChangeNotifier {
-  TodoFilterState _state = TodoFilterState.initial();
-  TodoFilterState get state => _state;
+  TodoFilterState _state = TodoFilterState.initial(); // TodoFilter에서 관리할 state
+
+  TodoFilterState get state => _state; // state safe 가드를 만든다
 
   void changeFilter(Filter newFilter) {
+// 새로운 STATE를 만들때 coptwith을 사용한다. 기존 값을 mutation 하지 않고 새로운 값을 만든다
+// copywith 함수는 클래스가 여러 propertyf를 가질 때 특히 유용하게 사용가능 변한 값만 argument로 넘겨준다.
     _state = _state.copyWith(filter: newFilter);
     notifyListeners();
   }
